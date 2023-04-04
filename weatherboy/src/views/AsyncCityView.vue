@@ -17,20 +17,22 @@
 import axios from 'axios';
 import { useRoute } from 'vue-router';
 
-const appid = "d71297201e9c01707047aeaa8b943925";
+
 const route = useRoute();
 const getWeatherData = async () => {
     try {
-        const weatherData = await axios.get(`https://api.openweathermap.org/data/3.0/onecall?lat=${route.query.lat}&lon=${route.query.lng}&exclude={part}&appid=${appid}`);
+        const weatherData = await axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${route.params.city},${route.params.state}&APPID=8de8f30d2be4c0ea624240f17768165a&units=metric`);
+        // // const weatherData = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${route.query.lat}&lon=${route.query.lng}&APPID=8de8f30d2be4c0ea624240f17768165a`);
         // date and time offset (timezones) for current weather report
         const localOffset = new Date().getTimezoneOffset() * 60000;
-        const utc = weatherData.data.current.dt * 1000 + localOffset;
+        const utc = weatherData.data.dt * 1000 + localOffset;
         weatherData.data.currentTime = utc + 1000 * weatherData.timezone_offset;
         // hourly weather reports with timezone offset
-        weatherData.data.hourly.forEach((hour) =>{
-            const utc = hour.dt * 1000 * localOffset;
-            hour.currentTime = utc * 1000 + weatherData.timezone_offset;
-        });
+        // weatherData.data.hourly.forEach(function (hour){
+        //     const utc = hour.dt * 1000 * localOffset;
+        //     hour.currentTime = utc * 1000 + weatherData.timezone_offset;
+        // });
+        console.log(weatherData);
         return;
     } catch (error) {
         console.log(error);

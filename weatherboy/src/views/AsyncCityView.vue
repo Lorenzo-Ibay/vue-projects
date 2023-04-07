@@ -11,7 +11,7 @@
             <h1 class="text-4xl mb-2 "> {{ route.params.city }}</h1>
             <p class="text-sm mb-12 ">
                 {{
-                new Date(weatherReport.current.dt).toLocaleDateString("en-us",
+                new Date(weatherReport.current.dt * 1000).toLocaleString("en-us",
                     {
                         weekday: "short",
                         day: "2-digit",
@@ -20,14 +20,46 @@
                  )
                 }}
                 {{
-                    new Date(weatherReport.current.dt).toLocaleTimeString("en-us",
+                    new Date(weatherReport.current.dt * 1000).toLocaleString("en-us",
                     {
                         timeStyle: "short",
                     }
                     )
                 }}
             </p>
+            <p class="text-8xl mb-8">
+                {{ Math.round(weatherReport.current.temp) }} &deg;
+            </p>
+                <p>
+                    Feels Like
+                    {{ Math.round(weatherReport.current.feels_like) }} &deg;
+                </p>
+                <p class="capitalize">{{ weatherReport.current.weather[0].description }}</p>
+                <img class="w-[150px] h-auto " :src="`https://openweathermap.org/img/wn/${weatherReport.current.weather[0].icon}@2x.png`" alt="">
         </div>
+        <hr class="border-white border-opacity-10 border w-full " />
+        <!-- hourly -->
+        <div class="max-w-screen-md w-full py-12">
+            <div class="mx-8 text-white">
+                <h2 class="mb-4">Hourly Forecast</h2>
+                <div class="flex gap-10 overflow-x-scroll">
+                    <div class="flex flex-col gap-4 items-center"  v-for="hourData in weatherReport.hourly" :key="hourData.dt">
+                        <p class=" whitespace-nowrap text-md ">
+                            {{ new Date(hourData.dt * 1000).toLocaleString("en-us", { hour: "numeric",}) }}
+                        </p>
+                        <img class="w-auto h-[50px] object-cover" :src="`https://openweathermap.org/img/wn/${hourData.weather[0].icon}@2x.png`" alt="">
+                        <p class="text-xl">
+                            {{ Math.round(hourData.temp) }} &deg;
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="border-white border-opacity-10 border w-full " />
+        <!-- weekly -->
+        <!-- <div class="max-w-screen-md w-full py-12">
+
+        </div> -->
     </div>
 </template>
 
@@ -40,7 +72,7 @@ const route = useRoute();
 const getWeatherData = async () => {
     try {
         // const weatherData = await axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${route.params.city},${route.params.state}&APPID=8de8f30d2be4c0ea624240f17768165a&units=metricnp`);
-        const weatherData = await axios.get(`https://api.openweathermap.org/data/3.0/onecall?lat=${route.query.lat}&lon=${route.query.lng}&APPID=8de8f30d2be4c0ea624240f17768165a`);
+        const weatherData = await axios.get(`https://api.openweathermap.org/data/3.0/onecall?lat=${route.query.lat}&lon=${route.query.lng}&APPID=8de8f30d2be4c0ea624240f17768165a&units=metric`);
         // date and time offset (timezones) for current weather report
         const localOffset = new Date().getTimezoneOffset() * 60000;
         const utc = weatherData.data.dt * 1000 + localOffset;

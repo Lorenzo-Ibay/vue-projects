@@ -1,8 +1,12 @@
+<script setup>
+import { RouterLink } from 'vue-router';
+</script>
+
 <template>
    <header>
     <nav class="container">
         <div class="branding">
-            <img src="../assets/" alt="">
+            <img src="../assets/logo.svg" alt="">
             <h1>Help Wanted</h1>
         </div>
         <ul class="nav-routes">
@@ -12,9 +16,7 @@
    </header>
 </template>
 
-<script setup>
-import { RouterLink } from 'vue-router';
-</script>
+
 
 <style lang="scss" scoped>
 

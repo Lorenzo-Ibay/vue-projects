@@ -1,8 +1,10 @@
 <script setup>
 import {  RouterView } from 'vue-router'
+import HelpWantedNav from './components/HelpWantedNav.vue';
 </script>
 
 <template>
+  <HelpWantedNav />
   <RouterView />
 </template>
 

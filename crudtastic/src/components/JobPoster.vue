@@ -1,11 +1,12 @@
 <script setup>
-import { reactive, ref } from 'vue';
+import { ref } from 'vue';
 
+const emit = defineEmits(["create-quest"]);
 const quest = ref("");
 
-const questState = reactive({
-    quest: "Add quests here",
-});
+const createQuest = () => {
+  emit("create-quest", quest.value);
+};
 </script>
 
 <template>

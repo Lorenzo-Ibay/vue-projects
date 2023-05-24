@@ -1,11 +1,22 @@
 <script setup>
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 
 const emit = defineEmits(["create-quest"]);
-const quest = ref("");
+const quest = reactive({
+  quest: "",
+  invalid: false,
+  errMsg:"",
+});
 
 const createQuest = () => {
-  emit("create-quest", quest.value);
+  quest.invalid= false;
+  if(quest.quest !==""){
+    emit ("create-quest" , quest.quest);
+    quest.quest = "";
+    return;
+  }
+  quest.invalid = true;
+  quest.errMsg = "Post Value Cannot Be Empty!";
 };
 </script>
 

@@ -1,13 +1,22 @@
 <script setup>
+import { ref } from 'vue';
+import { uid } from 'uid';
 import JobPoster from '../components/JobPoster.vue';
-
-
+const jobPosts = ref([]);
+const createQuest = (quest) => {
+  jobPosts.value.push({
+    id:uid(),
+    quest:,
+    isCompleted: null,
+    isEditing:null,
+  });
+};
 </script>
 
 <template>
   <main>
     <h1>Post Quest</h1>
-    <JobPoster />
+    <JobPoster @create-quest="createQuest()"/>
   </main>
 </template>
 <style scoped lang="scss">

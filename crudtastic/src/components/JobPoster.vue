@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue';
 
 const emit = defineEmits(["create-quest"]);
-const quest = reactive({
+const questState = reactive({
   quest: "",
   invalid: false,
   errMsg:"",
@@ -23,7 +23,7 @@ const createQuest = () => {
 <template>
     <div class="input-wrap">
         <input v-model="questState.quest" type="text" />
-        <button>Post</button>
+        <button @click="createQuest()">Post</button>
     </div>
     <p> {{ questState.quest }}</p>
 </template>
